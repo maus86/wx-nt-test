@@ -2,10 +2,18 @@ var gulp = require('gulp'),
 		less = require('gulp-less'),
 		autoprefixer = require('gulp-autoprefixer'),
     minifyCSS = require('gulp-minify-css'),
-		notify = require('gulp-notify');
+		notify = require('gulp-notify'),
+		rigger = require('gulp-rigger'),
+		uglify = require('gulp-uglify');
 
 gulp.task('default', function() {
   // place code for your default task here
+});
+
+gulp.task('html:build', function () {
+    gulp.src('src/*.html')
+        .pipe(rigger()) //Прогоним через rigger
+        .pipe(gulp.dest('public/'));        
 });
 
 gulp.task('public:less', function () {
@@ -24,6 +32,12 @@ gulp.task('public:less', function () {
 		.pipe(minifyCSS(''))
     .pipe(gulp.dest('public/css/'))
 		.pipe(notify('Done!'));
+});
+
+gulp.task('js:build', function () {
+    gulp.src('src/js/*.js')        
+        .pipe(uglify())
+        .pipe(gulp.dest('public/js/'));
 });
 
 gulp.task('watch', function() {
